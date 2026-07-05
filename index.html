@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KawanGuru | 16</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="style.css">
+
+</head>
+<body class="text-slate-800 antialiased h-screen flex w-full">
+
+    <div id="auth-view" class="w-full h-full flex z-50 bg-white absolute top-0 left-0 transition-opacity duration-700">
+        
+        <div class="hidden lg:flex lg:w-[45%] relative bg-slate-900 flex-col justify-between p-14 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
+            <div class="absolute -top-40 -left-40 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-[100px] opacity-70"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-teal-500 rounded-full mix-blend-multiply filter blur-[100px] opacity-50"></div>
+            
+            <div class="relative z-10 flex items-center space-x-3 text-white">
+                <img src="https://drive.google.com/thumbnail?id=1FkE1mT76omF5txS75K9mv5Spv4TOkNFs" alt="Logo App" class="w-10 h-10 rounded-xl shadow-lg object-cover border-2 border-white/20">
+                <span class="font-bold text-2xl tracking-tight">Kawan <span class="font-light text-blue-400">Guru</span></span>
+            </div>
+
+            <div class="relative z-10 slide-up" style="animation-delay: 0.2s;">
+                <h1 class="text-5xl font-extrabold text-white leading-tight mb-6">Transformasi<br>Digital <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-400">Pendidikan.</span></h1>
+                <p class="text-slate-300 text-lg max-w-md leading-relaxed font-light">Sistem administrasi terpadu untuk pencatatan presensi, nilai, dan jurnal mengajar. Dirancang khusus untuk efisiensi kinerja guru.</p>
+            </div>
+
+            <div class="relative z-10 flex items-center space-x-4 text-sm font-medium text-slate-400">
+                <span>&copy; 2026 Kawan Guru</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+                <span>Powered by Mappaguru Online</span>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-[55%] flex items-center justify-center p-6 sm:p-12 relative bg-white">
+            <div class="w-full max-w-md relative">
+                
+                <div class="lg:hidden flex items-center justify-center mb-10 text-slate-900">
+                    <img src="https://drive.google.com/thumbnail?id=1FkE1mT76omF5txS75K9mv5Spv4TOkNFs" alt="Logo App" class="w-12 h-12 rounded-xl shadow-lg mr-4 object-cover border-2 border-blue-100">
+                    <span class="font-extrabold text-3xl">Kawan <span class="font-light text-blue-600">Guru</span></span>
+                </div>
+
+                <div class="relative w-full min-h-[450px]">
+                    
+                    <div id="form-login-container" class="active-form w-full">
+						<!-- Inline style scale memastikan teks mengecil otomatis di layar kecil tanpa terpotong -->
+						<h4 class="font-bold text-slate-900 mb-2 origin-left scale-[0.8] md:scale-100 text-3xl">
+							Masuk Aplikasi
+							Kawan Guru
+						</h4>
+						<p class="text-slate-500 mb-8">UPT SPF SMP Negeri 16 Makassar</p>
+
+                        <form id="form-login" onsubmit="handleLogin(event)" class="space-y-5">
+                            <div class="floating-input">
+                                <input type="text" id="login-username" placeholder=" " required class="block w-full px-5 py-4 rounded-xl text-slate-900 font-medium">
+                                <label><i class="fa-regular fa-user mr-2"></i>Username atau NIP</label>
+                            </div>
+                            
+                            <div class="floating-input relative">
+								<input type="password" id="login-password" placeholder=" " required class="block w-full px-5 py-4 rounded-xl text-slate-900 font-medium pr-12">
+								<label><i class="fa-solid fa-lock mr-2"></i>Kata Sandi</label>
+								
+								<!-- Ikon Mata -->
+								<button type="button" onclick="togglePasswordVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition z-10">
+									<i id="eye-icon" class="fa-solid fa-eye text-lg"></i>
+								</button>
+							</div>
+
+                            <button type="submit" class="w-full bg-slate-900 hover:bg-blue-600 text-white font-bold py-4 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_25px_rgba(37,99,235,0.3)] transition-all duration-300 transform hover:-translate-y-1 mt-4">
+                                Masuk Aplikasi <i class="fa-solid fa-arrow-right ml-2"></i>
+                            </button>
+                        </form>
+						<div class="mt-8 text-center bg-slate-50 p-4 rounded-xl border border-slate-100">
+							<p class="text-sm text-slate-600 mb-2">Mau menggunakan Aplikasi Kawan Guru?</p>
+							<a href="https://wa.me/6285259259767" target="_blank" class="inline-flex items-center text-emerald-600 font-bold hover:text-emerald-700 transition bg-emerald-50 hover:bg-emerald-100 px-4 py-2 rounded-lg border border-emerald-200">
+								<i class="fa-brands fa-whatsapp text-lg mr-2"></i> Hubungi Admin (0852-5925-9767)
+							</a>
+						</div>
+                    </div>
+
+                    <div id="form-register-container" class="hidden-form w-full">
+                        <button type="button" onclick="toggleAuthView('login')" class="text-slate-400 hover:text-slate-800 mb-6 flex items-center transition font-medium text-sm">
+                            <i class="fa-solid fa-arrow-left mr-2 bg-slate-100 p-2 rounded-full"></i> Kembali ke Login
+                        </button>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-2">Daftar Akun Guru</h2>
+                        <p class="text-slate-500 mb-6">Lengkapi identitas untuk pendaftaran sistem.</p>
+
+                        <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4">
+                            <div class="floating-input">
+                                <input type="text" id="reg-nama" placeholder=" " required class="block w-full px-5 py-3.5 rounded-xl font-medium">
+                                <label>Nama Lengkap & Gelar</label>
+                            </div>
+                           <div class="floating-input">
+								<input type="text" id="reg-nip" placeholder=" " required class="block w-full px-5 py-3.5 rounded-xl font-medium">
+								<label>NIP / NUPTK</label>
+							</div>
+							<div class="floating-input">
+								<select id="reg-mapel" required class="block w-full px-5 py-3.5 rounded-xl font-medium">
+									<option value="" disabled selected>Memuat daftar mapel...</option>
+								</select>
+								<label>Mata Pelajaran</label>
+							</div>
+                            <div class="floating-input relative">
+								<input type="password" id="reg-password" placeholder=" " required minlength="6" class="block w-full px-5 py-3.5 rounded-xl font-medium pr-12">
+								<label>Kata Sandi Baru</label>
+								
+								<!-- Ikon Mata untuk Form Register -->
+								<button type="button" onclick="toggleRegPasswordVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition z-10">
+									<i id="reg-eye-icon" class="fa-solid fa-eye text-lg"></i>
+								</button>
+							</div>
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-300 mt-2">
+                                Daftarkan Akun <i class="fa-solid fa-user-plus ml-2"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-dashboard" class="hidden w-full h-full flex flex-col md:flex-row bg-slate-50 relative">
+        
+        <aside class="bg-white border-r border-slate-200 w-full md:w-72 flex-shrink-0 flex flex-col h-auto md:h-full z-40 transition-all shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+            <div class="p-6 flex items-center justify-between border-b border-slate-100">
+                <div class="flex items-center space-x-3 text-slate-900">
+                    <img src="https://drive.google.com/thumbnail?id=1FkE1mT76omF5txS75K9mv5Spv4TOkNFs" alt="Logo App" class="w-8 h-8 rounded-lg shadow-md object-cover border border-slate-200">
+                    <span class="font-bold text-lg tracking-tight">KAWAN <span class="text-blue-600">GURU</span></span>
+                </div>
+                <button class="md:hidden text-slate-400 hover:text-slate-800" onclick="document.getElementById('nav-menu').classList.toggle('hidden')">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <nav id="nav-menu" class="hidden md:flex flex-grow flex-col overflow-y-auto p-4 space-y-1.5">
+                </nav>
+
+            <div class="p-5 border-t border-slate-100 bg-slate-50/50">
+                <div class="flex items-center space-x-3 mb-5">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center text-white font-bold shadow-md" id="user-initial">A</div>
+                    <div class="overflow-hidden">
+                        <p id="user-display-name" class="text-sm font-bold text-slate-800 truncate">Nama User</p>
+                        <p id="user-display-role" class="text-xs font-medium text-slate-500 truncate bg-slate-200 inline-block px-2 py-0.5 rounded-full mt-0.5">Role</p>
+                    </div>
+                </div>
+                <button onclick="handleLogout()" class="w-full flex items-center justify-center space-x-2 bg-white border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 px-4 py-2.5 rounded-xl transition font-semibold text-sm">
+                    <i class="fa-solid fa-power-off"></i> <span>Keluar</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="flex-grow flex flex-col relative h-full overflow-hidden bg-slate-50/50">
+            <header class="glass-header px-8 py-5 flex justify-between items-center sticky top-0 z-30">
+                <div class="slide-up">
+                    <h2 id="page-title" class="text-2xl font-bold text-slate-800 tracking-tight">Dashboard Utama</h2>
+                    <p id="page-subtitle" class="text-sm font-medium text-slate-500 mt-1">Ringkasan aktivitas hari ini</p>
+                </div>
+                <div class="hidden sm:flex items-center space-x-5">
+					<div class="text-right border-r border-slate-200 pr-4">
+						<p id="realtime-hari" class="text-sm font-extrabold text-slate-800 leading-none">Memuat...</p>
+						<p id="realtime-jam" class="text-xs font-medium text-blue-600 mt-1">00:00:00</p>
+					</div>
+					<span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1.5 rounded-full flex items-center shadow-sm border border-emerald-200">
+						<i class="fa-solid fa-wifi mr-1.5"></i> Online
+					</span>
+				</div>
+            </header>
+
+            <div id="main-content" class="p-6 md:p-8 overflow-y-auto flex-grow relative pb-24">
+                </div>
+			<footer class="w-full bg-white/80 backdrop-blur-md border-t border-slate-200 py-3 px-8 flex flex-col md:flex-row justify-between items-center shadow-[0_-4px_20px_rgba(0,0,0,0.02)] transition-all">
+				<div class="flex items-center">
+					<img src="https://drive.google.com/thumbnail?id=1FkE1mT76omF5txS75K9mv5Spv4TOkNFs" class="w-6 h-6 rounded-md shadow-sm mr-2.5 object-cover border border-slate-200">
+					<span class="font-extrabold text-slate-800 text-sm tracking-widest uppercase">Kawan <span class="font-light text-blue-600">Guru</span></span>
+				</div>
+				<div class="mt-2 md:mt-0 flex items-center text-[10px] font-medium text-slate-500">
+					<i class="fa-solid fa-school text-amber-500 mr-1.5"></i>
+					<span>UPT SPF SMP Negeri 16 Makassar &copy; <span id="tahun-footer">2026</span></span>
+				</div>
+			</footer>
+        </main>
+    </div>
+	<script src="script.obfuscated.js"></script>
+    
+</body>
+</html>
