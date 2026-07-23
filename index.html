@@ -6,19 +6,57 @@
     <title>KawanGuru | 16</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // blue-600 dipakai sebagai warna utama di seluruh aplikasi (tombol, ikon, badge).
+                        // Diganti dari biru terang standar menjadi navy akademik yang lebih "mewah".
+                        blue: {
+                            50:  '#EEF2FB', 100: '#DCE3F4', 200: '#B9C8E9', 300: '#8FA6D8',
+                            400: '#5D7DC2', 500: '#3A5DA8', 600: '#1E3A8A', 700: '#182F70',
+                            800: '#132557', 900: '#0D1A3D'
+                        }
+                    },
+                    boxShadow: {
+                        sm: '0 1px 2px 0 rgba(15,23,42,0.05)',
+                        DEFAULT: '0 1px 3px 0 rgba(15,23,42,0.08), 0 1px 2px -1px rgba(15,23,42,0.06)',
+                        md: '0 6px 16px -4px rgba(15,23,42,0.10), 0 3px 6px -3px rgba(15,23,42,0.06)',
+                        lg: '0 16px 32px -8px rgba(15,23,42,0.14), 0 6px 12px -6px rgba(15,23,42,0.08)',
+                        xl: '0 24px 48px -12px rgba(15,23,42,0.18)',
+                        '2xl': '0 32px 64px -16px rgba(15,23,42,0.22)'
+                    },
+                    borderRadius: { xl: '0.85rem', '2xl': '1.15rem', '3xl': '1.75rem' }
+                }
+            }
+        };
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style.min.css">
+
+    <style>
+        /* Font judul "mewah" untuk seluruh heading (statis maupun yang dibuat script.js) */
+        h1, h2, h3, h4 {
+            font-family: 'Fraunces', 'Plus Jakarta Sans', serif !important;
+            letter-spacing: -0.01em;
+        }
+    </style>
 
 </head>
 <body class="text-slate-800 antialiased h-screen flex w-full">
+
 
     <div id="auth-view" class="w-full h-full flex z-50 bg-white absolute top-0 left-0 transition-opacity duration-700">
         
@@ -29,7 +67,10 @@
             
             <div class="relative z-10 flex items-center space-x-3 text-white">
                 <img src="https://drive.google.com/thumbnail?id=1FkE1mT76omF5txS75K9mv5Spv4TOkNFs" alt="Logo App" class="w-10 h-10 rounded-xl shadow-lg object-cover border-2 border-white/20">
-                <span class="font-bold text-2xl tracking-tight">Kawan <span class="font-light text-blue-400">Guru</span></span>
+                <div>
+                    <span class="font-bold text-2xl tracking-tight">Kawan <span class="font-light text-blue-400">Guru</span></span>
+                    <span class="block h-[3px] w-10 bg-gradient-to-r from-amber-400 to-amber-200/40 rounded-full mt-1.5"></span>
+                </div>
             </div>
 
             <div class="relative z-10 slide-up" style="animation-delay: 0.2s;">
@@ -44,19 +85,22 @@
             </div>
         </div>
 
-        <div class="w-full lg:w-[55%] flex items-center justify-center p-6 sm:p-12 relative bg-white">
-            <div class="w-full max-w-md relative">
+        <div class="w-full lg:w-[55%] flex items-center justify-center p-6 sm:p-12 relative bg-white overflow-hidden">
+
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-100 rounded-full blur-3xl opacity-60 -mr-20 -mt-20 lg:hidden"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-teal-100 rounded-full blur-3xl opacity-50 -ml-20 -mb-20 lg:hidden"></div>
+
+            <div class="w-full max-w-md relative z-10">
                 
-                <div class="lg:hidden flex items-center justify-center mb-10 text-slate-900">
-                    <img src="https://drive.google.com/thumbnail?id=1FkE1mT76omF5txS75K9mv5Spv4TOkNFs" alt="Logo App" class="w-12 h-12 rounded-xl shadow-lg mr-4 object-cover border-2 border-blue-100">
-                    <span class="font-extrabold text-3xl">Kawan <span class="font-light text-blue-600">Guru</span></span>
+                <div class="lg:hidden flex items-center justify-center mb-8 sm:mb-10 text-slate-900">
+                    <img src="https://drive.google.com/thumbnail?id=1FkE1mT76omF5txS75K9mv5Spv4TOkNFs" alt="Logo App" class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl shadow-lg mr-3 sm:mr-4 object-cover border-2 border-blue-100">
+                    <span class="font-extrabold text-2xl sm:text-3xl">Kawan <span class="font-light text-blue-600">Guru</span></span>
                 </div>
 
                 <div class="relative w-full min-h-[450px]">
                     
-                    <div id="form-login-container" class="active-form w-full">
-						<!-- Inline style scale memastikan teks mengecil otomatis di layar kecil tanpa terpotong -->
-						<h4 class="font-bold text-slate-900 mb-2 origin-left scale-[0.8] md:scale-100 text-3xl">
+                    <div id="form-login-container" class="active-form w-full text-center lg:text-left">
+						<h4 class="font-bold text-slate-900 mb-2 text-2xl sm:text-3xl">
 							Masuk Aplikasi
 							Kawan Guru
 						</h4>
@@ -65,7 +109,7 @@
                         <form id="form-login" onsubmit="handleLogin(event)" class="space-y-5">
                             <div class="floating-input">
                                 <input type="email" id="login-username" placeholder=" " required class="block w-full px-5 py-4 rounded-xl text-slate-900 font-medium">
-                                <label><i class="fa-regular fa-user mr-2"></i>Masukkan email terdaftar</label>
+                                <label><i class="fa-regular fa-user mr-2"></i>Email Gmail</label>
                             </div>
                             
                             <div class="floating-input relative">
@@ -138,9 +182,12 @@
             <div class="p-6 flex items-center justify-between border-b border-slate-100">
                 <div class="flex items-center space-x-3 text-slate-900">
                     <img src="https://drive.google.com/thumbnail?id=1FkE1mT76omF5txS75K9mv5Spv4TOkNFs" alt="Logo App" class="w-8 h-8 rounded-lg shadow-md object-cover border border-slate-200">
-                    <span class="font-bold text-lg tracking-tight">KAWAN <span class="text-blue-600">GURU</span></span>
+                    <div>
+                        <span class="font-bold text-lg tracking-tight">KAWAN <span class="text-blue-600">GURU</span></span>
+                        <span class="block h-[3px] w-8 bg-gradient-to-r from-amber-400 to-amber-200 rounded-full mt-1"></span>
+                    </div>
                 </div>
-                <button class="md:hidden text-slate-400 hover:text-slate-800" onclick="document.getElementById('nav-menu').classList.toggle('hidden')">
+                <button id="mobile-menu-toggle" class="md:hidden text-slate-400 hover:text-slate-800" onclick="document.getElementById('nav-menu').classList.toggle('hidden')">
                     <i class="fa-solid fa-bars text-xl"></i>
                 </button>
             </div>
@@ -150,7 +197,10 @@
 
             <div class="p-5 border-t border-slate-100 bg-slate-50/50">
                 <div class="flex items-center space-x-3 mb-5">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center text-white font-bold shadow-md" id="user-initial">A</div>
+                    <div class="relative w-10 h-10 flex-shrink-0">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center text-white font-bold shadow-md" id="user-initial">A</div>
+                        <img id="user-avatar-photo" class="hidden absolute inset-0 w-10 h-10 rounded-full object-cover shadow-md border-2 border-white" alt="Foto Guru">
+                    </div>
                     <div class="overflow-hidden">
                         <p id="user-display-name" class="text-sm font-bold text-slate-800 truncate">Nama User</p>
                         <p id="user-display-role" class="text-xs font-medium text-slate-500 truncate bg-slate-200 inline-block px-2 py-0.5 rounded-full mt-0.5">Role</p>
@@ -163,7 +213,7 @@
         </aside>
 
         <main class="flex-grow flex flex-col relative h-full overflow-hidden bg-slate-50/50">
-            <header class="glass-header px-8 py-5 flex justify-between items-center sticky top-0 z-30">
+            <header id="dashboard-header" class="glass-header px-8 py-5 flex justify-between items-center sticky top-0 z-30 md:!flex">
                 <div class="slide-up">
                     <h2 id="page-title" class="text-2xl font-bold text-slate-800 tracking-tight">Dashboard Utama</h2>
                     <p id="page-subtitle" class="text-sm font-medium text-slate-500 mt-1">Ringkasan aktivitas hari ini</p>
@@ -193,7 +243,236 @@
 			</footer>
         </main>
     </div>
+
+    <nav id="bottom-nav-guru" class="hidden md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-lg border-t border-slate-200 shadow-[0_-4px_24px_rgba(0,0,0,0.08)] px-2 pt-2" style="padding-bottom: max(0.5rem, env(safe-area-inset-bottom));">
+        <div class="grid grid-cols-4 gap-1">
+            <button type="button" data-bn="beranda" onclick="bnGoto('beranda')" class="bn-item flex flex-col items-center justify-center py-2 rounded-xl text-slate-400 transition-colors">
+                <i class="fa-solid fa-house text-lg mb-1"></i>
+                <span class="text-[11px] font-semibold">Beranda</span>
+            </button>
+            <button type="button" data-bn="input" onclick="bnOpenSheet('sheet-input')" class="bn-item flex flex-col items-center justify-center py-2 rounded-xl text-slate-400 transition-colors">
+                <i class="fa-solid fa-pen-to-square text-lg mb-1"></i>
+                <span class="text-[11px] font-semibold">Input</span>
+            </button>
+            <button type="button" data-bn="rekap" onclick="bnOpenSheet('sheet-rekap')" class="bn-item flex flex-col items-center justify-center py-2 rounded-xl text-slate-400 transition-colors">
+                <i class="fa-solid fa-chart-line text-lg mb-1"></i>
+                <span class="text-[11px] font-semibold">Rekap</span>
+            </button>
+            <button type="button" data-bn="akun" onclick="bnGoto('akun')" class="bn-item flex flex-col items-center justify-center py-2 rounded-xl text-slate-400 transition-colors">
+                <i class="fa-solid fa-user-gear text-lg mb-1"></i>
+                <span class="text-[11px] font-semibold">Akun</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Tombol "Pembuat Aplikasi" - hanya tampil di Beranda, mode HP, role Guru -->
+    <button type="button" id="fab-tentang-aplikasi" onclick="bnTentangAplikasi()" class="hidden md:hidden fixed right-4 z-40 flex items-center gap-2 bg-slate-900 text-white text-xs font-bold pl-3 pr-4 py-2.5 rounded-full shadow-lg active:scale-95 transition" style="bottom: 5.75rem;">
+        <i class="fa-solid fa-circle-info"></i> Pembuat Aplikasi
+    </button>
+
+    <!-- Bottom Sheet: Input Data -->
+    <div id="sheet-input" class="bn-sheet hidden md:hidden fixed inset-0 z-50">
+        <div class="absolute inset-0 bg-slate-900/40" onclick="bnCloseSheet('sheet-input')"></div>
+        <div class="absolute bottom-0 inset-x-0 bg-white rounded-t-3xl shadow-2xl p-5 bn-sheet-panel" style="padding-bottom: max(1.25rem, env(safe-area-inset-bottom));">
+            <div class="w-10 h-1.5 bg-slate-200 rounded-full mx-auto mb-5"></div>
+            <h3 class="font-bold text-slate-900 mb-4 px-1">Input Data</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <button type="button" onclick="bnRun('sheet-input','renderFormJurnal','Jurnal Mengajar')" class="flex flex-col items-center justify-center gap-2 py-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-blue-50 hover:border-blue-200 transition text-slate-700 font-semibold text-sm">
+                    <i class="fa-solid fa-book-open text-xl text-blue-600"></i> Jurnal Mengajar
+                </button>
+                <button type="button" onclick="bnRun('sheet-input','renderFormAbsen','Absensi Kelas')" class="flex flex-col items-center justify-center gap-2 py-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-blue-50 hover:border-blue-200 transition text-slate-700 font-semibold text-sm">
+                    <i class="fa-solid fa-user-check text-xl text-blue-600"></i> Absensi Kelas
+                </button>
+                <button type="button" onclick="bnRun('sheet-input','renderFormJurnalKegiatan','Jurnal Kegiatan')" class="flex flex-col items-center justify-center gap-2 py-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-blue-50 hover:border-blue-200 transition text-slate-700 font-semibold text-sm">
+                    <i class="fa-solid fa-calendar-days text-xl text-blue-600"></i> Jurnal Kegiatan
+                </button>
+                <button type="button" onclick="bnRun('sheet-input','renderFormNilai','Input Nilai')" class="flex flex-col items-center justify-center gap-2 py-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-blue-50 hover:border-blue-200 transition text-slate-700 font-semibold text-sm">
+                    <i class="fa-solid fa-file-signature text-xl text-blue-600"></i> Input Nilai
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Sheet: Rekap Data -->
+    <div id="sheet-rekap" class="bn-sheet hidden md:hidden fixed inset-0 z-50">
+        <div class="absolute inset-0 bg-slate-900/40" onclick="bnCloseSheet('sheet-rekap')"></div>
+        <div class="absolute bottom-0 inset-x-0 bg-white rounded-t-3xl shadow-2xl p-5 bn-sheet-panel" style="padding-bottom: max(1.25rem, env(safe-area-inset-bottom));">
+            <div class="w-10 h-1.5 bg-slate-200 rounded-full mx-auto mb-5"></div>
+            <h3 class="font-bold text-slate-900 mb-1 px-1">Rekap Data</h3>
+            <p class="text-xs text-slate-500 mb-4 px-1">Lihat riwayat, sekaligus edit/hapus data yang sudah tersimpan</p>
+            <div class="grid grid-cols-2 gap-3">
+                <button type="button" onclick="bnRun('sheet-rekap','tampilkanPopupPilihanRekap','Rekap Absen')" class="flex flex-col items-center justify-center gap-1 py-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-blue-50 hover:border-blue-200 transition text-slate-700 font-semibold text-sm">
+                    <i class="fa-solid fa-chart-column text-xl text-blue-600 mb-1"></i> Rekap Absen
+                    <span class="text-[10px] font-normal text-slate-400">Lihat &amp; cetak PDF</span>
+                </button>
+                <button type="button" onclick="bnRun('sheet-rekap','renderRekapNilai','Rekap & Koreksi Nilai')" class="flex flex-col items-center justify-center gap-1 py-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-blue-50 hover:border-blue-200 transition text-slate-700 font-semibold text-sm">
+                    <i class="fa-solid fa-list-check text-xl text-blue-600 mb-1"></i> Rekap Nilai
+                    <span class="text-[10px] font-normal text-slate-400">Bisa edit nilai</span>
+                </button>
+                <button type="button" onclick="bnRun('sheet-rekap','renderRekapJurnal','Rekap & Edit Jurnal Mengajar')" class="flex flex-col items-center justify-center gap-1 py-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-blue-50 hover:border-blue-200 transition text-slate-700 font-semibold text-sm">
+                    <i class="fa-solid fa-file-pdf text-xl text-blue-600 mb-1"></i> Rekap Jurnal Mengajar
+                    <span class="text-[10px] font-normal text-slate-400">Bisa edit/hapus</span>
+                </button>
+                <button type="button" onclick="bnRun('sheet-rekap','renderRekapJurnalKegiatan','Rekap & Edit Jurnal Kegiatan')" class="flex flex-col items-center justify-center gap-1 py-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-blue-50 hover:border-blue-200 transition text-slate-700 font-semibold text-sm">
+                    <i class="fa-solid fa-briefcase text-xl text-blue-600 mb-1"></i> Rekap Jurnal Kegiatan
+                    <span class="text-[10px] font-normal text-slate-400">Bisa edit/hapus</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .bn-sheet-panel { animation: bnSheetUp .28s cubic-bezier(0.4,0,0.2,1) both; }
+        @keyframes bnSheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    </style>
+
 	<script src="script.obfuscated.js"></script>
-    
+
+    <!-- Skrip tambahan: hanya membaca role & memanggil fungsi yang sudah ada, -->
+    <!-- tidak mengubah/menimpa apa pun di script.obfuscated.js               -->
+    <script>
+    (function () {
+        function isMobile() { return window.innerWidth < 768; }
+        var bnCurrentPage = 'beranda';
+
+        function updateFab() {
+            var fab = document.getElementById('fab-tentang-aplikasi');
+            if (!fab) return;
+            var show = currentRole() === 'Guru' && isMobile() && bnCurrentPage === 'beranda';
+            fab.classList.toggle('hidden', !show);
+        }
+
+        function updateHeaderVisibility() {
+            var header = document.getElementById('dashboard-header');
+            if (!header) return;
+            var hide = currentRole() === 'Guru' && isMobile() && bnCurrentPage !== 'beranda';
+            header.classList.toggle('hidden', hide);
+        }
+
+        function applyRoleView(role) {
+            var bn = document.getElementById('bottom-nav-guru');
+            var hamburger = document.getElementById('mobile-menu-toggle');
+            if (!bn) return;
+            if (role === 'Guru') {
+                bn.classList.toggle('hidden', !isMobile());
+                if (hamburger) hamburger.classList.toggle('hidden', isMobile());
+            } else {
+                bn.classList.add('hidden');
+                if (hamburger) hamburger.classList.remove('hidden');
+            }
+            updateFab();
+            updateHeaderVisibility();
+        }
+
+        var roleLabel = document.getElementById('user-display-role');
+        var currentRole = function () { return roleLabel ? roleLabel.textContent.trim() : ''; };
+
+        if (roleLabel) {
+            var observer = new MutationObserver(function () { applyRoleView(currentRole()); });
+            observer.observe(roleLabel, { childList: true, characterData: true, subtree: true });
+        }
+        window.addEventListener('resize', function () { applyRoleView(currentRole()); });
+
+        function setBnActive(kind) {
+            document.querySelectorAll('#bottom-nav-guru .bn-item').forEach(function (b) {
+                var active = b.dataset.bn === kind;
+                b.classList.toggle('text-blue-600', active);
+                b.classList.toggle('text-slate-400', !active);
+            });
+        }
+
+        window.bnGoto = function (kind) {
+            setBnActive(kind);
+            bnCurrentPage = kind;
+            updateFab();
+            updateHeaderVisibility();
+            if (kind === 'beranda' && typeof loadUtama === 'function') loadUtama('Beranda Sistem');
+            if (kind === 'akun') {
+                if (typeof renderProfilGuru === 'function') renderProfilGuru('Pengaturan Akun');
+                if (typeof window.refreshFotoGuru === 'function') window.refreshFotoGuru(); // cek foto terbaru saat buka Akun
+            }
+        };
+
+        window.bnOpenSheet = function (id) {
+            var el = document.getElementById(id);
+            if (el) el.classList.remove('hidden');
+        };
+        window.bnCloseSheet = function (id) {
+            var el = document.getElementById(id);
+            if (el) el.classList.add('hidden');
+        };
+        window.bnRun = function (sheetId, fnName, title) {
+            bnCloseSheet(sheetId);
+            bnCurrentPage = sheetId === 'sheet-input' ? 'input' : 'rekap';
+            setBnActive(bnCurrentPage);
+            updateFab();
+            updateHeaderVisibility();
+            if (typeof window[fnName] === 'function') window[fnName](title);
+        };
+
+        window.bnTentangAplikasi = function () {
+            if (typeof renderTentangAplikasi === 'function') renderTentangAplikasi('Pembuat Aplikasi');
+        };
+
+        function fotoCacheKey() {
+            if (typeof AppState === 'undefined' || !AppState.id_guru) return null;
+            return 'kawanguru_foto_' + AppState.id_guru;
+        }
+
+        function paintFoto(url) {
+            var img = document.getElementById('user-avatar-photo');
+            if (!img) return;
+            if (url) { img.src = url; img.classList.remove('hidden'); }
+            else { img.classList.add('hidden'); }
+        }
+
+        function readCache(key) {
+            try {
+                var raw = key ? localStorage.getItem(key) : null;
+                return raw ? JSON.parse(raw) : null;
+            } catch (e) { return null; }
+        }
+
+        function writeCache(key, url) {
+            if (!key) return;
+            try { localStorage.setItem(key, JSON.stringify({ url: url, ts: Date.now() })); } catch (e) {}
+        }
+
+        window.refreshFotoGuru = async function () {
+            if (typeof AppState === 'undefined' || AppState.role !== 'Guru' || !AppState.id_guru) return;
+
+            var key = fotoCacheKey();
+            var cached = readCache(key);
+            if (cached && cached.url) paintFoto(cached.url); // tampil instan dari cache dulu
+
+            if (typeof apiCall !== 'function' || typeof getDirectImageUrl !== 'function') return;
+            try {
+                var res = await apiCall('GET', { sheetName: 'Guru' });
+                if (!res || !res.success || !res.data) return;
+                var myData = res.data.find(function (g) { return g.id_guru === AppState.id_guru; });
+                if (!myData) return;
+                var directUrl = myData.Foto_Profil ? getDirectImageUrl(myData.Foto_Profil) : null;
+                if (directUrl && (!cached || cached.url !== directUrl)) {
+                    paintFoto(directUrl);
+                    writeCache(key, directUrl);
+                }
+            } catch (e) { /* biarkan diam, huruf inisial dari script asli tetap tampil sebagai cadangan */ }
+        };
+
+        // Tunggu sampai AppState.id_guru terisi (maks ~20 detik), lalu cek foto sekali
+        var tries = 0;
+        var poll = setInterval(function () {
+            tries++;
+            if (typeof AppState !== 'undefined' && AppState.id_guru) {
+                window.refreshFotoGuru();
+                clearInterval(poll);
+            } else if (tries > 40) {
+                clearInterval(poll);
+            }
+        }, 500);
+    })();
+    </script>
+
+
 </body>
 </html>
